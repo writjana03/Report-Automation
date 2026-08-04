@@ -1,10 +1,6 @@
 /* ==========================================================================
    MOCK DATA
-   This mirrors the columns from the "APAC Qualys - 0716" master tracker
-   (Qualys sheet + Data Definition sheet for Status / Status Category).
-   Power Automate will later replace loadRecords() with a live fetch
-   (e.g. from a SharePoint list / Excel table / API endpoint) that
-   returns objects in this same shape.
+   Power Automate will later replace it
    ========================================================================== */
 
 const RAW_RECORDS = [
@@ -649,7 +645,7 @@ const COUNTRY_MAP = {
   GB: "United Kingdom", DE: "Germany", AE: "UAE", US: "United States", CA: "Canada"
 };
 
-// Maps a country code to its region grouping.
+// Mapping a country code to its region grouping.
 const COUNTRY_REGION_MAP = {
   AU: "APAC", CN: "APAC", MY: "APAC", HK: "APAC", SG: "APAC",
   IN: "APAC", TH: "APAC", PH: "APAC", VN: "APAC",
@@ -678,7 +674,7 @@ function extractRegion(applicationName) {
   return COUNTRY_REGION_MAP[code] || "Other";
 }
 
-// Typical remediation SLA window (in days) by risk priority, counted from First Found Date.
+// Remediation SLA window (in days) by risk priority, counted from First Found Date.
 const SLA_WINDOW_DAYS = { 1: 30, 2: 30, 3: 60, 4: 90, 5: 120 };
 
 // Reference "today" used for SLA countdown math.
@@ -760,12 +756,9 @@ function riskBadge(priority) {
 }
 
 /* ==========================================================================
-   DATA LOADING (swap this for a live Power Automate / API call later)
+   DATA LOADING (swapped for a Power Automate call later)
    ========================================================================== */
 function loadRecords() {
-  // Example for future live integration:
-  // const res = await fetch('https://<power-automate-http-trigger-url>');
-  // allRecords = await res.json();
   allRecords = RAW_RECORDS.map((r, i) => {
     const daysRemaining = slaDaysRemaining(r);
     return {
